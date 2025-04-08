@@ -1,76 +1,57 @@
-
-
-<main class="main-content  mt-0">
-    <section>
-        <div class="page-header min-vh-100">
-            <div class="container">
-                <div class="row">
-                    <div
-                        class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
-                        <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center"
-                            style="background-image: url('../assets/img/illustrations/illustration-signup.jpg'); background-size: cover;">
-                        </div>
+<x-layouts.app>
+    <div class="container mt-9">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-plain">
+                    <div class="card-header text-start">
+                        <h4 class="font-weight-bolder">Admin Sign Up</h4>
+                        <p class="mb-0">Enter your name, email, and password to create your account</p>
                     </div>
-                    <div
-                        class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
-                        <div class="card card-plain">
-                            <div class="card-header">
-                                <h4 class="font-weight-bolder">Sign Up</h4>
-                                <p class="mb-0">Enter your name, email and password to register</p>
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('admin.signup') }}">
+                            @csrf
+    
+                            {{-- Name --}}
+                            <div class="input-group input-group-outline mb-4">
+                                <label class="form-label">Name</label>
+                                <input type="text" name="name" class="form-control" required>
                             </div>
-                            <div class="card-body">
-                                <form wire:submit ="store">
-
-                                    <div class="input-group input-group-outline @if(strlen($name?? '') > 0) is-filled @endif">
-                                        <label class="form-label">Name</label>
-                                        <input name="name" type="text" class="form-control" 
-                                        >
-                                    </div>
-                                    @error('name')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-
-                                    <div class="input-group input-group-outline mt-3 @if(strlen($email ?? '') > 0) is-filled @endif">
-                                        <label class="form-label">Email</label>
-                                        <input name="email" type="email"  class="form-control"
-                                             >
-                                    </div>
-                                    @error('email')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-
-                                    <div class="input-group input-group-outline mt-3 @if(strlen($password ?? '') > 0) is-filled @endif">
-                                        <label class="form-label">Password</label>
-                                        <input name="password" type="password" class="form-control" >
-                                    </div>
-                                    @error('password')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                    <div class="form-check form-check-info text-start ps-0 mt-3">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="flexCheckDefault" checked>
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                            I agree the <a href="javascript:;"
-                                                class="text-dark font-weight-bolder">Terms and Conditions</a>
-                                        </label>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit"
-                                            class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Register</button>
-                                    </div>
-                                </form>
+    
+                            {{-- Email --}}
+                            <div class="input-group input-group-outline mb-4">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" required>
                             </div>
-                            <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                                <p class="mb-2 text-sm mx-auto">
-                                    Already have an account?
-                                    <a href="{{ route('login') }}"
-                                        class="text-primary text-gradient font-weight-bold">Sign in</a>
-                                </p>
+    
+                            {{-- Password --}}
+                            <div class="input-group input-group-outline mb-4">
+                                <label class="form-label">Password</label>
+                                <input type="password" name="password" class="form-control" required>
                             </div>
-                        </div>
+    
+                            {{-- Terms Checkbox --}}
+                            <div class="form-check form-check-info text-start ps-0 mb-3">
+                                <input class="form-check-input" type="checkbox" value="" id="termsCheck" required>
+                                <label class="form-check-label" for="termsCheck">
+                                    I agree to the <a href="#" class="text-dark font-weight-bold">Terms and Conditions</a>
+                                </label>
+                            </div>
+    
+                            {{-- Submit --}}
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-lg bg-gradient-primary w-100 mt-2">Sign Up</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center pt-0 px-lg-2 px-1 mt-3">
+                        <p class="mb-2 text-sm mx-auto">
+                            Already have an account?
+                            <a href="{{ route('admin.login') }}" class="text-primary font-weight-bold">Login</a>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-</main>
+    </div>
+    
+</x-layouts.app>

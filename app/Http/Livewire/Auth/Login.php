@@ -4,17 +4,17 @@ namespace App\Http\Livewire\Auth;
 
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class Login extends Component
 {
-
     public $email = '';
     public $password = '';
 
     protected $rules = [
         'email' => 'required|email',
         'password' => 'required'
-
     ];
 
     public function render()
@@ -22,25 +22,18 @@ class Login extends Component
         return view('livewire.auth.login');
     }
 
-    public function mount()
-    {
-
-        $this->fill(['email' => 'admin@material.com', 'password' => 'secret']);
-    }
-
     public function store()
-{
-    $attributes = $this->validate();
+    {
+        $credentials = $this->validate();
 
-    if (!auth()->guard('admin')->attempt($attributes)) {
+        if (Auth::guard('admin')->attempt($credentials)) {
+            session()->regenerate();
+            Session::flash('success', 'Logged in successfully.');
+            return redirect()->route('dashboard'); // Make sure this route is defined
+        }
+
         throw ValidationException::withMessages([
-            'email' => 'Your provided credentials could not be verified.'
+            'email' => 'Invalid email or password.',
         ]);
     }
-
-    session()->regenerate();
-
-    return redirect('/dashboard'); // Or your admin dashboard route
-}
-
 }

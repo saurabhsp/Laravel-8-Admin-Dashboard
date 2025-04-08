@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -60,10 +61,23 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
+    public function getUsers(){
+        $users = User::all();
+        return view('admin.users', compact($users));
+    }
+
+
     public function adminLogout()
     {
         Session::flush();
         return redirect()->route('admin.login')->with('success', 'Logged out successfully.');
+    }
+
+
+    /// Pre Coming data with Theme
+    public function render()
+    {
+        return view('livewire.dashboard');
     }
 
 }

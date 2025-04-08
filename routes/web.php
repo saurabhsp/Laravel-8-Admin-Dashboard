@@ -30,12 +30,6 @@ use GuzzleHttp\Middleware;
 |
 */
 
-// Route::get('admin/signup', [AdminController::class, 'showSignupForm'])->name('admin.signup');
-// Route::post('admin/signup', [AdminController::class, 'adminSignup']);
-// Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-// Route::post('admin/login', [AdminController::class, 'adminLogin'])->name('admin.login.submit');
-// Route::get('admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');
-
 Route::get('/', function(){
     return redirect('login');
 });
@@ -43,9 +37,6 @@ Route::get('/', function(){
 Route::get('forgot-password', ForgotPassword::class)->name('password.forgot');
 Route::get('reset-password/{id}', ResetPassword::class)->middleware('signed')->name('reset-password');
 
-Route::middleware(['admin.auth'])->group(function () {
-    Route::get('dashboard', Dashboard::class)->name('dashboard');
-});
 
 
 
@@ -66,4 +57,23 @@ Route::get('static-sign-up', StaticSignUp::class)->name('static-sign-up');
 Route::get('rtl', RTL::class)->name('rtl');
 
 Route::group(['middleware' => 'auth'], function () {
+});
+
+
+Route::get('admin/signup', [AdminController::class, 'showSignupForm'])->name('admin.signup');
+Route::post('admin/signup', [AdminController::class, 'adminSignup']);
+Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+Route::post('admin/login', [AdminController::class, 'adminLogin'])->name('admin.login.submit');
+Route::get('admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');
+
+Route::middleware(['admin'])->group(function () {
+    Route::get('admin/dashboard', Dashboard::class)->name('admin.dashboard');
+    Route::get('admin/users', UserManagement::class)->name('user-manage');
+    Route::get('admin/users/{id}/toggle-status', [UserManagement::class, 'toggleStatus'])->name('admin.users.toggle-status');
+    Route::get('admin/users/create', [UserManagement::class, 'create'])->name('admin.users.create');
+    Route::post('admin/users/store', [UserManagement::class, 'store'])->name('admin.users.store');
+    Route::get('admin/users/{id}/edit', [UserManagement::class, 'edit'])->name('admin.users.edit');
+    Route::put('admin/users/{id}/update', [UserManagement::class, 'update'])->name('admin.users.update');
+    Route::get('admin/users/{id}/delete', [UserManagement::class, 'destroy'])->name('admin.users.delete');
+      
 });
