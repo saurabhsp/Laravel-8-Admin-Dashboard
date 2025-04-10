@@ -97,3 +97,56 @@
         </div>
     </div>
 </div>
+<!-- User Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalLabel">All Users</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-bordered" id="userTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Show Card</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function loadUsers() {
+        fetch("{{ route('api.users') }}")
+            .then(response => response.json())
+            .then(data => {
+                let tableBody = '';
+                data.forEach(user => {
+                    tableBody += `
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.name}</td>
+                            <td>
+                                <a href="/user/card/${user.id}" target="_blank" class="btn btn-sm btn-warning">
+                                    Show ID Card
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                });
+                document.querySelector('#userTable tbody').innerHTML = tableBody;
+            })
+            .catch(error => console.error('Error loading users:', error));
+    }
+    </script>
+    
+    
+  

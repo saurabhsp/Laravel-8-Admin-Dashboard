@@ -86,4 +86,20 @@ class UserManagement extends Component
 
         return redirect()->route('user-manage')->with('success', 'User deleted successfully.');
     }
+
+    // public function allUsers()
+    // {
+    //     $users = User::all();
+    //     return view('components.navbars.sidebar' , compact('users'));
+    // }
+
+    public function index()
+    {
+        return response()->json(User::all());
+    }
+    public function showCard($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.users.usercard', compact('user'));
+    }
 }

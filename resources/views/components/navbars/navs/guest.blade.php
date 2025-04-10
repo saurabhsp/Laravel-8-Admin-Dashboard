@@ -47,7 +47,7 @@
             </ul>
             <ul class="navbar-nav d-lg-block d-none">
                 <li class="nav-item">
-                    <a href="#"
+                    <a href="{{ url('/user/login') }}"
                         class="btn btn-sm mb-0 me-1 bg-gradient-dark" target="_blank">Any Queries?</a>
                 </li>
             </ul>

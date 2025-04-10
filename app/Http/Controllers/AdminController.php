@@ -53,10 +53,15 @@ class AdminController extends Controller
         Session::put('admin_id', $admin->id);
         Session::put('admin_name', $admin->name);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('user-manage');
     }
 
     public function showDashboard()
+    {
+        return view('admin.dashboard');
+    }
+
+    public function render()
     {
         return view('admin.dashboard');
     }
@@ -71,13 +76,6 @@ class AdminController extends Controller
     {
         Session::flush();
         return redirect()->route('admin.login')->with('success', 'Logged out successfully.');
-    }
-
-
-    /// Pre Coming data with Theme
-    public function render()
-    {
-        return view('livewire.dashboard');
     }
 
 }

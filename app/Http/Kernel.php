@@ -47,6 +47,15 @@ class Kernel extends HttpKernel
         'admin' =>[
             \App\Http\Middleware\AdminAuthMiddleware::class, 
       ],
+
+      'user' =>[
+      \App\Http\Middleware\UserAuthMiddleware::class, 
+      ],
+      'dealer'=>
+      [
+        \App\Http\Middleware\DealerAuthMiddleware::class,
+      ],
+  
     ];
 
     /**
@@ -67,5 +76,5 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         // 'admin.auth' => \App\Http\Middleware\AdminAuth::class,
-    ];
+  ];
 }
