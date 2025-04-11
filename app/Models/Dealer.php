@@ -23,6 +23,7 @@ class Dealer extends Authenticatable
         'phone',
         'password',
         'user_id',
+        'profile_picture', // Add this
     ];
     
 

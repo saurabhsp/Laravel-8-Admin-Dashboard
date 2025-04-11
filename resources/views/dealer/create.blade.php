@@ -9,7 +9,7 @@
                     </div>
                     <div class="card-body">
                         {{-- Start your form here --}}
-                        <form action="{{ route('user.dealers.store') }}" method="POST">
+                        <form action="{{ route('user.dealers.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             {{-- Add your form fields below --}}
@@ -40,6 +40,16 @@
                                 <label class="form-label"><i class="fas fa-lock"></i>Password</label>
                                 <input name='password' type="password" class="form-control">
                             </div>
+
+                             {{-- Profile Picture --}}
+                             <div class="mb-3 mt-3">
+                                <label for="profile_picture" class="form-label text-dark">
+                                    <i class="fas fa-image me-2"></i>Profile Picture
+                                </label>
+                                <input type="file" name="profile_picture" id="profile_picture" class="form-control"
+                                    accept="image/*">
+                            </div>
+
 
                             <div class="m-3">
                                 <button type="submit" class="btn btn-primary w-100">Submit</button>

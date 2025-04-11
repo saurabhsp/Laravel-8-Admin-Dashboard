@@ -16,13 +16,15 @@ class UserManagement extends Component
             'users' => $users
         ]);
     }
-    
+
 
     //Create
     public function create()
     {
         return view('admin.users.create');
     }
+
+    //Store user
     public function store(Request $request)
     {
         $request->validate([
@@ -30,7 +32,21 @@ class UserManagement extends Component
             'phone' => 'required|unique:users,phone|numeric|digits:10',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        $imagePath = null;
+
+        // Check if image is uploaded
+        if ($request->hasFile('profile_picture')) {
+            $image = $request->file('profile_picture');
+            $filename = time() . '_' . $image->getClientOriginalName();
+
+            // Save to public/users/profilepic
+            $image->move(public_path('users/profilepic'), $filename);
+
+            $imagePath = 'users/profilepic/' . $filename; // Save this path to DB
+        }
 
         User::create([
             'name' => $request->name,
@@ -38,11 +54,12 @@ class UserManagement extends Component
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'status' => 1,
-            
+            'profile_picture' => $imagePath,
         ]);
-        // return "User Added Success";
+
         return redirect()->route('user-manage')->with('success', 'User added successfully.');
     }
+
 
 
     public function edit($id)
@@ -54,21 +71,39 @@ class UserManagement extends Component
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
+    
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|unique:users,phone,' . $id,
             'email' => 'required|email|unique:users,email,' . $id,
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
-        $user->update([
+    
+        $data = [
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
-        ]);
-        // return "Updated";
+        ];
+    
+        // ✅ Only update image if a new one is uploaded
+        if ($request->hasFile('profile_picture')) {
+            // Delete old image if exists
+            if ($user->profile_picture && file_exists(public_path($user->profile_picture))) {
+                unlink(public_path($user->profile_picture));
+            }
+    
+            $file = $request->file('profile_picture');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('users/profilepic'), $filename);
+            $data['profile_picture'] = 'users/profilepic/' . $filename;
+        }
+    
+        $user->update($data);
+    
         return redirect()->route('user-manage')->with('success', 'User details updated successfully.');
     }
+    
+    
 
     public function toggleStatus($id)
     {

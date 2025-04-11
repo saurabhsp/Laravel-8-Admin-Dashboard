@@ -21,12 +21,26 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created At</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID
+                                    </th>
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Profile</th>
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Name</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Email</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Phone</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Created At</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,12 +49,16 @@
                                         <td>
                                             <p class="mb-0 text-sm ms-3">{{ $user->id }}</p>
                                         </td>
+
+                                        <td>
+                                            <div>
+                                                <img src="{{ $user->profile_picture ? asset($user->profile_picture) : 'https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=' }}"
+                                                    class="avatar avatar-sm me-3 border-radius-lg" alt="user">
+                                            </div>
+                                        </td>
+
                                         <td>
                                             <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="{{ url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMcL4AEbLTIBKLFW09-AXSjpXEPXAVBHF5Qw&s') }}"
-                                                         class="avatar avatar-sm me-3 border-radius-lg" alt="user">
-                                                </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">{{ $user->name }}</h6>
                                                 </div>
@@ -53,35 +71,39 @@
                                             <span class="text-secondary text-xs">{{ $user->phone }}</span>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs">{{ $user->created_at->format('d M Y') }}</span>
+                                            <span
+                                                class="text-secondary text-xs">{{ $user->created_at->format('d M Y') }}</span>
                                         </td>
 
                                         <td>
-                                            @if($user->status)
+                                            @if ($user->status)
                                                 <span class="badge bg-success">Active</span>
-                                                <a href="{{ route('admin.users.toggle-status', $user->id) }}" class="btn btn-sm btn-danger">Block</a>
+                                                <a href="{{ route('admin.users.toggle-status', $user->id) }}"
+                                                    class="btn btn-sm btn-danger">Block</a>
                                             @else
                                                 <span class="badge bg-danger">Blocked</span>
-                                                <a href="{{ route('admin.users.toggle-status', $user->id) }}" class="btn btn-sm btn-success">Unblock</a>
+                                                <a href="{{ route('admin.users.toggle-status', $user->id) }}"
+                                                    class="btn btn-sm btn-success">Unblock</a>
                                             @endif
                                         </td>
 
                                         <td class="align-middle text-center">
-                                            <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('admin.users.edit', $user->id) }}">
+                                            <a rel="tooltip" class="btn btn-success btn-link"
+                                                href="{{ route('admin.users.edit', $user->id) }}">
                                                 <i class="material-icons">edit</i>
                                             </a>
 
-                                            <a href="{{ route('admin.users.delete', $user->id) }}"  onclick="return confirm('Are you sure?')">                                                
-                                            <button type="button" class="btn btn-danger btn-link">
-                                                <i class="material-icons" style="color: white">close</i>
-                                            </button>
-                                        </a>
+                                            <a href="{{ route('admin.users.delete', $user->id) }}"
+                                                onclick="return confirm('Are you sure?')">
+                                                <button type="button" class="btn btn-danger btn-link">
+                                                    <i class="material-icons" style="color: white">close</i>
+                                                </button>
+                                            </a>
                                         </td>
-                                      
+
                                     </tr>
-                                   
                                 @endforeach
-                                @if($users->isEmpty())
+                                @if ($users->isEmpty())
                                     <tr>
                                         <td colspan="5" class="text-center text-muted py-4">
                                             No users found.
@@ -100,30 +122,30 @@
 <!-- User Modal -->
 <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="userModalLabel">All Users</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">All Users</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" id="userTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Show Card</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="modal-body">
-          <table class="table table-bordered" id="userTable">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Show Card</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Filled by JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
-  </div>
-  
-  <script>
+</div>
+
+<script>
     function loadUsers() {
         fetch("{{ route('api.users') }}")
             .then(response => response.json())
@@ -146,7 +168,4 @@
             })
             .catch(error => console.error('Error loading users:', error));
     }
-    </script>
-    
-    
-  
+</script>

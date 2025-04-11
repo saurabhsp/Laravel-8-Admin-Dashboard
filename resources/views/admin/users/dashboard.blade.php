@@ -58,13 +58,21 @@
                                             <td>
                                                 <p class="mb-0 text-sm ms-3">{{ $dealer->id }}</p>
                                             </td>
+
+                                            <td>
+                                                <div>
+                                                    <img src="{{ $dealer->profile_picture ? asset($dealer->profile_picture) : 'https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=' }}"
+                                                        class="avatar avatar-sm me-3 border-radius-lg" alt="user">
+                                                </div>
+                                            </td>
+
                                             <td>
                                                 <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                        <img src="{{ url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMcL4AEbLTIBKLFW09-AXSjpXEPXAVBHF5Qw&s') }}"
+                                                    {{-- <div>
+                                                        <img src="{{ $dealer->profile_picture }}"
                                                             class="avatar avatar-sm me-3 border-radius-lg"
                                                             alt="dealer">
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <h6 class="mb-0 text-sm">{{ $dealer->name }}</h6>
                                                     </div>

@@ -9,14 +9,14 @@
                     </div>
                     <div class="card-body">
 
-                        @if(session('success'))
+                        @if (session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
                             </div>
                         @endif
 
                         {{-- Start your form here --}}
-                        <form action="{{ route('user.dealers.update', $dealer->id) }}" method="POST">
+                        <form action="{{ route('user.dealers.update', $dealer->id) }}" method="POST" enctype='multipart/form-data'>
                             @csrf
                             @method('PUT')
 
@@ -24,22 +24,36 @@
                             <div
                                 class="input-group input-group-outline mt-3 @if (strlen($dealer->name ?? '') > 0) is-filled @endif">
                                 <label class="form-label"><i class="fas fa-dealer"></i>Name</label>
-                                <input name='name' type="text" class="form-control" value="{{ old('name', $dealer->name) }}" required>
+                                <input name='name' type="text" class="form-control"
+                                    value="{{ old('name', $dealer->name) }}" required>
                             </div>
 
                             {{-- Email --}}
                             <div
                                 class="input-group input-group-outline mt-3 @if (strlen($dealer->email ?? '') > 0) is-filled @endif">
                                 <label class="form-label"><i class="fas fa-envelope"></i>Email</label>
-                                <input name='email' type="email" class="form-control" value="{{ old('email', $dealer->email) }}" required>
+                                <input name='email' type="email" class="form-control"
+                                    value="{{ old('email', $dealer->email) }}" required>
                             </div>
 
                             {{-- Phone --}}
                             <div
                                 class="input-group input-group-outline mt-3 @if (strlen($dealer->phone ?? '') > 0) is-filled @endif">
                                 <label class="form-label"><i class="fas fa-phone"></i>Mobile Number</label>
-                                <input name='phone' type="text" maxlength="10" class="form-control" value="{{ old('phone', $dealer->phone) }}" required>
+                                <input name='phone' type="text" maxlength="10" class="form-control"
+                                    value="{{ old('phone', $dealer->phone) }}" required>
                             </div>
+
+                            {{-- Profile Picture --}}
+                            <div class="mb-3 mt-3">
+                                <label for="profile_picture" class="form-label text-dark">
+                                    <i class="fas fa-image me-2"></i>Profile Picture
+                                </label>
+                                <input type="file" name="profile_picture" id="profile_picture" class="form-control"
+                                    accept="image/*">
+                            </div>
+
+
 
                             {{-- Submit --}}
                             <div class="m-3">

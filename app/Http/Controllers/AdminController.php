@@ -17,7 +17,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:admins,email',
+            'email' => 'required|email|unique:admins,email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-z]{2,}$/',
             'password' => 'required|min:6',
         ]);
 
@@ -40,7 +40,7 @@ class AdminController extends Controller
     public function adminLogin(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-z]{2,}$/',
             'password' => 'required'
         ]);
 

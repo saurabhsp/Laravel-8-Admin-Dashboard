@@ -16,7 +16,7 @@
                         @endif
 
                         {{-- Start your form here --}}
-                        <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
+                        <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -40,6 +40,15 @@
                                 <label class="form-label"><i class="fas fa-phone"></i>Mobile Number</label>
                                 <input name='phone' type="text" maxlength="10" class="form-control" value="{{ old('phone', $user->phone) }}" required>
                             </div>
+
+                                {{-- Profile Picture --}}
+                                <div class="mb-3 mt-3">
+                                    <label for="profile_picture" class="form-label text-dark">
+                                        <i class="fas fa-image me-2"></i>Profile Picture
+                                    </label>
+                                    <input type="file" name="profile_picture" id="profile_picture" class="form-control"
+                                        accept="image/*">
+                                </div>
 
                             {{-- Submit --}}
                             <div class="m-3">

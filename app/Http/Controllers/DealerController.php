@@ -22,7 +22,7 @@ public function dealerLogin(Request $request)
 {
 
     $request->validate([
-        'email' => 'required|email',
+        'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-z]{2,}$/',
         'password' => 'required',
     ]);
 

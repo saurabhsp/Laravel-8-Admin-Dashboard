@@ -12,7 +12,9 @@
         <p class="text-muted">Here is your ID card preview</p>
 
         <div class="id-card mt-4 mx-auto d-flex align-items-center gap-3 p-3 bg-light rounded shadow" style="width: 340px; height: 210px;">
-            <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?ga=GA1.1.874864824.1719228024&semt=ais_hybrid&w=740" alt="Dealer Photo" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid #6c757d;">
+            <img src="{{ $dealer->profile_picture ? asset($dealer->profile_picture) : 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?ga=GA1.1.874864824.1719228024&semt=ais_hybrid&w=740' }}"
+            class="avatar avatar-sm me-3 border-radius-lg" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid #6c757d;" alt="user">
+            {{-- <img src="" alt="Dealer Photo" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid #6c757d;"> --}}
             
             <div class="text-start">
                 <h5 class="mb-1">{{ $dealer->name }}</h5>

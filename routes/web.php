@@ -58,7 +58,7 @@ Route::get('static-sign-in', StaticSignIn::class)->name('static-sign-in');
 Route::get('static-sign-up', StaticSignUp::class)->name('static-sign-up');
 Route::get('rtl', RTL::class)->name('rtl');
 
-Route::group(['middleware' => 'auth'], function () {});
+// Route::group(['middleware' => 'auth'], function () {});
 
 
 Route::get('admin/signup', [AdminController::class, 'showSignupForm'])->name('admin.signup');

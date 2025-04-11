@@ -29,7 +29,7 @@ class UserController extends Controller
     public function userLogin(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-z]{2,}$/',
             'password' => 'required',
         ]);
 
@@ -98,9 +98,24 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|unique:users,phone|numeric|digits:10',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-z]{2,}$/',
             'password' => 'required|min:6',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        $imagePath = null;
+
+        // Check if image is uploaded
+        if ($request->hasFile('profile_picture')) {
+            $image = $request->file('profile_picture');
+            $filename = time() . '_' . $image->getClientOriginalName();
+
+            // Save to public/users/profilepic
+            $image->move(public_path('dealers/profilepic'), $filename);
+
+            $imagePath = 'dealers/profilepic/' . $filename; // Save this path to DB
+        }
+
 
         Dealer::create([
             'name' => $request->name,
@@ -109,6 +124,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'status' => 1,
             'user_id' => Session::get('id'), // Link dealer to the currently logged-in user
+            'profile_picture' => $imagePath,
         ]);
 
         return redirect()->route('user.dashboard')->with('success', 'Dealer added successfully.');
@@ -121,6 +137,42 @@ class UserController extends Controller
         $dealer = Dealer::findOrFail($id);
         return view('dealer.edit', compact('dealer'));
     }
+
+    public function update(Request $request, $id)
+    {
+        $dealers = Dealer::findOrFail($id);
+    
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|unique:dealers,phone,' . $id,
+            'email' => 'required|email|unique:dealers,email,' . $id,
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+    
+        $data = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+        ];
+    
+        // ✅ Only update image if a new one is uploaded
+        if ($request->hasFile('profile_picture')) {
+            // Delete old image if exists
+            if ($dealers->profile_picture && file_exists(public_path($dealers->profile_picture))) {
+                unlink(public_path($dealers->profile_picture));
+            }
+    
+            $file = $request->file('profile_picture');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('dealers/profilepic'), $filename);
+            $data['profile_picture'] = 'dealers/profilepic/' . $filename;
+        }
+    
+        $dealers->update($data);
+    
+        return redirect()->route('user.dashboard')->with('success', 'Dealer updated successfully.');
+    }
+
 
     public function loginAsDealer($dealerId)
     {
@@ -148,9 +200,6 @@ class UserController extends Controller
         return redirect()->route('dealer.dashboard');
     }
 
-
-
-
     public function backToUser(Request $request)
 {
     if (!Session::has('dealer_logged_by_user')) {
@@ -175,6 +224,4 @@ class UserController extends Controller
 
     return redirect()->route('user.dashboard')->with('success', 'Switched back to user account.');
 }
-
-
 }
